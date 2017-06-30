@@ -55,6 +55,6 @@ class TreeNode:
         if self.GetStatus() is NodeStatus.Running:
             print('Node HALTED:', self.name)
             self.SetStatus(NodeStatus.Halted)
-            self.SetColor(NodeColor.Black)
+        self.SetColor(NodeColor.Black)
 
 

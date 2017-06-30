@@ -271,7 +271,7 @@ class vrep_api:
 
     def grasp_object(self,object_id):
 
-        self.init_arm()
+        self.open_gripper()
         time.sleep(2)
 
         self.set_position(self.gripper_id, object_id, [0,0,0])
@@ -292,10 +292,6 @@ class vrep_api:
         with self.object_grasped_id_lock:
             time.sleep(4)
 
-            # original_position = self.get_position(self.gripper_id,-1)
-            # new_position = original_position
-            # new_position[1] += 0.1
-            # new_position[2] -= 0.1
 
             self.set_position(self.gripper_id,self.gripper_id,[0,0.1,-0.1])
 
@@ -313,11 +309,6 @@ class vrep_api:
     def ungrasp_object(self):
         with self.object_grasped_id_lock:
             time.sleep(4)
-
-            # original_position = self.get_position(self.gripper_id,-1)
-            # new_position = original_position
-            # new_position[1] += 0.1
-            # new_position[2] -= 0.1
 
             self.set_position(self.gripper_id,self.gripper_id,[0.2,0.1,-0.1])
 
@@ -354,16 +345,11 @@ class vrep_api:
     def move_close_to_object(self,object_id, type='cube'):
 
 
-        # if self.object_grasped_id is not None:
-        #     self.current_object_goal_id = object_id
+
         print('moving close to object', object_id)
         cip = self.get_closest_inverse_pose(object_id, self.youbot_vehicle_target_id, type)
         self.set_pose(self.youbot_vehicle_target_id, -1, cip)
-        while True:
-            print('moving close to object', object_id)
-            time.sleep(1)
-            if self.is_robot_close_2d(object_id, 0.32):
-                break
+
     def is_robot_close_2d(self,object_id, threshold):
         position = self.get_position(object_id,self.youbot_ref_id)
         return np.linalg.norm(position) < threshold

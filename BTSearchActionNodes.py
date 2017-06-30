@@ -23,10 +23,10 @@ class MoveCloseTo(ActionNode):
         self.SetColor(NodeColor.Gray)
         self.vrep.move_close_to_object(self.object_id)
 
-        while self.GetStatus() == NodeStatus.Running:
-            #print self.name + ' executing'
-            print('Executing Action', self.name)
-            time.sleep(0.1)
+        # while self.GetStatus() == NodeStatus.Running:
+        #     #print self.name + ' executing'
+        #     print('Executing Action', self.name)
+        #     time.sleep(0.1)
 
         print('MoveCloseTo DONE!!!!!')
 
@@ -72,8 +72,8 @@ class DropObject(ActionNode):
         #     print('Executing Action', self.name)
         #     time.sleep(0.1)
         print('DropObject DONE!!!!!')
-        self.SetStatus(NodeStatus.Success)
-        self.SetColor(NodeColor.Green)
+        # self.SetStatus(NodeStatus.Success)
+        # self.SetColor(NodeColor.Green)
 
     def Halt(self):
         if self.GetStatus() == NodeStatus.Running:
@@ -98,8 +98,8 @@ class UngraspObject(ActionNode):
         #     print('Executing Action', self.name)
         #     time.sleep(0.1)
         print('DropObject DONE!!!!!')
-        self.SetStatus(NodeStatus.Success)
-        self.SetColor(NodeColor.Green)
+        # self.SetStatus(NodeStatus.Success)
+        # self.SetColor(NodeColor.Green)
 
     def Halt(self):
         if self.GetStatus() == NodeStatus.Running:

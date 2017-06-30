@@ -48,7 +48,7 @@ class IsObjectAt(ConditionNode):
         self.at = at
 
     def Execute(self, args):
-
+        self.vrep.get_object_grasped_id()#just for waiting the lock
         if self.vrep.are_objects_close2d(self.object_id, self.at,0.12):
             self.SetStatus(NodeStatus.Success)
             self.SetColor(NodeColor.Green)

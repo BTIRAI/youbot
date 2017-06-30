@@ -16,11 +16,8 @@ class SequenceNode(ControlNode):
 
 
         if True:
-        # if self.GetStatus() != NodeStatus.Success and self.GetStatus() != NodeStatus.Failure:
-
             #check if you have to tick a new child or halt the current
             i = 0
-            #try:
             for c in self.Children:
                 if self.GetStatus() is NodeStatus.Halted:
                     break
@@ -30,7 +27,6 @@ class SequenceNode(ControlNode):
                     c.SendTick()
                 else:
                     c.Execute(args)
-                # print '???' + str(i)
 
                 while c.GetStatus() == NodeStatus.Idle:
                     time.sleep(0.1)
@@ -39,7 +35,6 @@ class SequenceNode(ControlNode):
                 if c.GetStatus() == NodeStatus.Running:
                     self.SetStatus(NodeStatus.Running)
                     self.SetColor(NodeColor.Gray)
-                  #  print 'Breaking'  + str(i)
                     self.HaltChildren(i + 1)
                     break
                 elif c.GetStatus() == NodeStatus.Success:
@@ -50,8 +45,7 @@ class SequenceNode(ControlNode):
                         self.SetStatus(NodeStatus.Success)
                         self.SetColor(NodeColor.Green)
                         break
-                        #while self.GetStatus() != NodeStatus.Idle:
-                            #time.sleep(0.1)
+
 
                 elif c.GetStatus() == NodeStatus.Failure:
                     if c.nodeClass is not 'Leaf':
@@ -67,20 +61,6 @@ class SequenceNode(ControlNode):
                         c.SetStatus(NodeStatus.Halted)
 
                     self.HaltChildren(i + 1)
-                    # self.SetStatus(NodeStatus.Halted)
-                    # self.SetColor(NodeColor.Black)
-
-                    #while self.GetStatus() != NodeStatus.Idle:
-                    #       time.sleep(0.1)
-                    #print 'Failure'  + str(i)
                     break
 
-                else:
-                    pass
-                    # raise Exception('Node ' +self.name + ' does not recognize the status of child named: ' + self.Children[i-1].name)
-        #print 'SEQUENCE DONE'
-
-
-           # except:
-             #   print 'Error'
 
