@@ -428,6 +428,31 @@ void startSimulation()
 
 
 
+    bool isObjectGrasped(std::string object_name)
+    {
+        simxInt handle;
+        simxGetObjectHandle(clientID, object_name.c_str(), &handle, mode);
+
+        simxFloat distance = getDistance(handle, youbot_grippers_target_handle);
+
+        return distance < 0.01;
+    }
+
+
+    bool isRobotCloseTo(std::string object_name)
+    {
+        simxInt handle;
+        simxGetObjectHandle(clientID, object_name.c_str(), &handle, mode);
+
+        simxFloat distance = getDistance(handle, youbot_base_target_handle);
+
+        return distance < 0.01;
+    }
+
+
+
+
+
     simxInt getHandle(std::string name)
     {
 

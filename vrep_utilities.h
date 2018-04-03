@@ -15,13 +15,17 @@ namespace vrep_utilities
     void startSimulation();
     void closeGrippers();
     void openGrippers();
- simxInt getHandle(std::string name);
- void gotoObject(std::string name);
- void graspObject(std::string name);
- void invPose(simxInt object_handle);
- void approachObject(std::string name);
- void dropObject();
- void stopMove();
+    simxInt getHandle(std::string name);
+    void gotoObject(std::string name);
+    void graspObject(std::string name);
+    void invPose(simxInt object_handle);
+    bool isObjectGrasped(std::string name);
+    bool isObjectAt(std::string object_name, std::string at_name);
+    bool isRobotCloseTo(std::string object_name);
+
+    void approachObject(std::string name);
+    void dropObject();
+    void stopMove();
 }
 
 #endif // VREP_UTILITIES_H

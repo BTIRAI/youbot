@@ -22,11 +22,38 @@ vrep_utilities::approachObject("yellowRectangle");
 std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 vrep_utilities::graspObject("yellowRectangle");
 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-vrep_utilities::approachObject("greenRectangle");
-vrep_utilities::stopMove();
+vrep_utilities::approachObject("goalRegion");
+std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+
+while(vrep_utilities::isObjectGrasped("yellowRectangle"))
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+}
+
+
+vrep_utilities::dropObject();
+std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+
+vrep_utilities::approachObject("blueRectangle");
+std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+vrep_utilities::graspObject("blueRectangle");
+std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+vrep_utilities::approachObject("goalRegion");
 std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 vrep_utilities::dropObject();
+std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
+
+vrep_utilities::approachObject("greenRectangle");
+std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+vrep_utilities::graspObject("greenRectangle");
+std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+vrep_utilities::approachObject("goalRegion");
+std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+vrep_utilities::dropObject();
+std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
 
 
