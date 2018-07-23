@@ -111,7 +111,7 @@ BT::ReturnStatus BT::IsRobotCloseTo::Tick()
 {
     std::cout << "Checking IsRobotCloseTo" << std::endl;
 
-    if (vrep_utilities::isRobotCloseTo(object_name_))
+    if (vrep_utilities::isRobotCloseTo(object_name_) || vrep_utilities::isObjectGrasped(object_name_))
     {
 
         return BT::SUCCESS;
