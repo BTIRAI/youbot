@@ -40,6 +40,14 @@
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 
+#include <vrep_utilities.h>
+using namespace std;
+
+extern "C" {
+    #include "extApi.h"
+/*	#include "extApiCustom.h" if you wanna use custom remote API functions! */
+}
+
 
 std::vector<QtNodes::Node*> findRoots(const QtNodes::FlowScene &scene)
 {
@@ -541,8 +549,57 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
     case BT::GRASP:
     {
 
-        std::cout << "the action is GRASP" << node.nodeDataModel()->get_line_edit().toStdString() << std::endl;
         BT::Grasp* bt_node = new BT::Grasp(node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+    case BT::MOVETO:
+    {
+
+        BT::MoveCloseTo* bt_node = new BT::MoveCloseTo(node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+
+    case BT::ISOBJECTGRASPED:
+    {
+
+        BT::IsObjectGrasped* bt_node = new BT::IsObjectGrasped(node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+    case BT::ISROBOTCLOSE:
+    {
+
+        BT::IsRobotCloseTo* bt_node = new BT::IsRobotCloseTo(node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+
+    case BT::ISOBJECTONOBJECT:
+    {
+
+        BT::IsObjectAt* bt_node = new BT::IsObjectAt(node.nodeDataModel()->get_line_edit().toStdString(), node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+    case BT::PUTFRONT:
+    {
+
+        BT::PutInFront* bt_node = new BT::PutInFront(node.nodeDataModel()->get_line_edit().toStdString());
+        node.linkBTNode(bt_node);
+        return bt_node;
+    }
+
+    case BT::PUTSIDE:
+    {
+
+        BT::PutAside* bt_node = new BT::PutAside(node.nodeDataModel()->get_line_edit().toStdString());
         node.linkBTNode(bt_node);
         return bt_node;
     }
@@ -574,7 +631,7 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
         {
             bt_node->AddChild(getBTObject(scene,*children[i]));
         }
-     //   node.linkBTNode(bt_node);
+        node.linkBTNode(bt_node);
         return bt_node;
         break;
     }
@@ -589,7 +646,7 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
         {
             bt_node->AddChild(getBTObject(scene,*children[i]));
         }
-   //     node.linkBTNode(bt_node);
+        node.linkBTNode(bt_node);
         return bt_node;
         break;
     }
@@ -603,7 +660,7 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
         {
             bt_node->AddChild(getBTObject(scene,*children[i]));
         }
-    //    node.linkBTNode(bt_node);
+        node.linkBTNode(bt_node);
         return bt_node;
         break;
     }
@@ -618,7 +675,7 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
         {
             bt_node->AddChild(getBTObject(scene,*children[i]));
         }
-    //    node.linkBTNode(bt_node);
+        node.linkBTNode(bt_node);
         return bt_node;
         break;
     }
@@ -663,7 +720,8 @@ void runTree(QtNodes::FlowScene* scene)
 
 
 
-
+    vrep_utilities::init();
+    vrep_utilities::startSimulation();
 
     while (getMode() == 1)
     {
@@ -675,7 +733,6 @@ void runTree(QtNodes::FlowScene* scene)
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         scene->update();
-       // ((YarpBlackboardNodeModel*)blackboard_node)->update_blackboard();
 
 
         for (auto &it : scene->nodes())
@@ -685,7 +742,7 @@ void runTree(QtNodes::FlowScene* scene)
         }
     }
     std::cout << "Halting the BT" << std::endl;
-//  bt_root->Halt();
+      bt_root->Halt();
 
 
 

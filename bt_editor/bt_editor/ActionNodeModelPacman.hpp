@@ -158,3 +158,31 @@ public:
     virtual QString name() const override { return QString("IsObjectGrasped"); }
 };
 
+
+
+class IsObjectAtObjectModel : public BehaviorTreeNodeModel
+{
+public:
+    QLineEdit* _another_line_edit;
+
+    IsObjectAtObjectModel():
+        BehaviorTreeNodeModel("IsObjectAtObject", NodeFactory::get().getActionParameterModel() )
+    {
+
+
+    }
+    int BTType()
+    {
+        return BT::ISOBJECTONOBJECT;
+    }
+    virtual ~IsObjectAtObjectModel() {}
+
+    virtual unsigned int  nPorts(PortType portType) const override
+    { return (portType==PortType::In) ? 1:0; }
+
+    virtual std::unique_ptr<NodeDataModel> clone() const override
+    { return  std::unique_ptr<NodeDataModel>( new IsObjectGraspedModel ); }
+
+    virtual QString name() const override { return QString("IsObjectAtObject"); }
+};
+

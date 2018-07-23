@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ret->registerModel<IsRobotCloseToModel>("Condition");
     ret->registerModel<IsObjectGraspedModel>("Condition");
+    ret->registerModel<IsObjectAtObjectModel>("Condition");
 
 
     ret->registerModel<DecoratorNodeModel>("Decorator");

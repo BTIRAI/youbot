@@ -44,7 +44,7 @@ paint(QPainter* painter,
     //--------------------------------------------
     NodeDataModel const * model = node.nodeDataModel();
 
-    drawNodeRect(painter, geom, model, graphicsObject, status);
+    drawNodeRect(painter, geom, model, graphicsObject, node);
 
     drawConnectionPoints(painter, geom, state, model, scene);
 
@@ -72,7 +72,7 @@ drawNodeRect(QPainter* painter,
              NodeGeometry const& geom,
              NodeDataModel const* model,
              NodeGraphicsObject const & graphicsObject,
-             int status)
+             Node & node)
 {
     NodeStyle const& nodeStyle = model->nodeStyle();
 
@@ -81,23 +81,49 @@ drawNodeRect(QPainter* painter,
             : nodeStyle.NormalBoundaryColor;
 
 
-    if(getMode() == 1)
+    //if the BT is running and the node is linked (it could be a loose node), color it.
+    if(getMode() == 1 && node.BTNode() !=NULL)
     {
-        switch (status) {
+
+        switch (node.BTNode()->get_color_status()) {
         case BT::RUNNING:
             color = Qt::gray;
             break;
+
         case BT::SUCCESS:
             color = Qt::green;
             break;
+
         case BT::FAILURE:
             color = Qt::red;
             break;
+
         default:
             color = Qt::black;
             break;
         }
+
+
     }
+
+
+//    if(getMode() == 1)
+//    {
+//        switch (status) {
+//        case BT::RUNNING:
+//            color = Qt::gray;
+//            break;
+//        case BT::SUCCESS:
+//            color = Qt::green;
+//            break;
+//        case BT::FAILURE:
+//            color = Qt::red;
+//            break;
+//        default:
+//            color = Qt::black;
+//            break;
+//        }
+//    }
 
 
     if (geom.hovered())

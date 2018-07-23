@@ -36,7 +36,7 @@ public:
                NodeGeometry const& geom,
                NodeDataModel const* model,
                NodeGraphicsObject const & graphicsObject,
-               int status);
+               Node & node);
 
   static
   void
