@@ -3,10 +3,10 @@
 
 #include <iostream>
 
-extern "C" {
+//extern "C" {
     #include "extApi.h"
 /*	#include "extApiCustom.h" if you wanna use custom remote API functions! */
-}
+//}
 
 
 namespace vrep_utilities
