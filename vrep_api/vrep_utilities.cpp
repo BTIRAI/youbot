@@ -166,6 +166,17 @@ void startSimulation()
 
     }
 
+
+    simxFloat get2DDistance(simxInt object1_handle, simxInt object2_handle)
+    {
+        simxFloat relative_position[3];
+
+        simxGetObjectPosition(clientID, object1_handle, object2_handle, relative_position, mode);
+
+        return std::sqrt(relative_position[0]*relative_position[0] + relative_position[1]*relative_position[1]);
+
+    }
+
     void invPose(simxInt object_handle)
     {
 
@@ -297,135 +308,6 @@ void startSimulation()
         simxSetObjectOrientation(clientID, dummy_disk_handle, object_handle, min_orientation, mode);
     }
 
-//    void invPose(simxInt object_handle)
-//    {
-
-
-//        simxInt dummy_disk_handle = getHandle("Disc2");
-
-//        simxFloat object_position[3], object_orientation[3], dummy_disk_position[3], dummy_disk_orientation[3],
-//                new_position[3], new_orientation[3];
-//        simxGetObjectPosition(clientID, object_handle, -1, object_position, mode);
-//        simxGetObjectPosition(clientID, dummy_disk_handle, -1, dummy_disk_position, mode);
-
-//        simxGetObjectOrientation(clientID, dummy_disk_handle, -1, dummy_disk_orientation, mode);
-//        simxGetObjectOrientation(clientID, dummy_disk_handle, -1, object_orientation, mode);
-
-//        simxFloat min_distance = 10000, current_distance, min_position[3], min_orientation[3];
-
-//        //trying first position
-
-//        simxFloat shift = 0.3;
-
-//        new_position[0] = object_position[0] - shift;
-//        new_position[1] = object_position[1];
-//        new_position[2] = dummy_disk_position[2];
-//        simxSetObjectPosition(clientID, dummy_disk_handle, -1, new_position, mode);
-
-
-//        new_orientation[0] = 0;
-//        new_orientation[1] = 0;
-//        new_orientation[2] = 0 + 3.14142/2;
-//        simxSetObjectOrientation(clientID, dummy_disk_handle, object_handle, new_orientation, mode);
-//        current_distance = getDistance(dummy_disk_handle, youbot_base_handle);
-//        if (current_distance < min_distance)
-//        {
-//            min_distance = current_distance;
-//            for (int i = 0; i<3; i++)
-//            {
-//                min_position[i] =  new_position[i];
-//                min_orientation[i] = new_orientation[i];
-//            }
-//        }
-//        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
-//        //trying second position
-
-//        shift = 0.3;
-
-//        new_position[0] = object_position[0] + shift;
-//        new_position[1] = object_position[1];
-//        new_position[2] = dummy_disk_position[2];
-//        simxSetObjectPosition(clientID, dummy_disk_handle, -1, new_position, mode);
-
-
-//        new_orientation[0] = 0;
-//        new_orientation[1] = 0;
-//        new_orientation[2] = 0 - 3.14142/2;
-//        simxSetObjectOrientation(clientID, dummy_disk_handle, object_handle, new_orientation, mode);
-
-
-//        current_distance = getDistance(dummy_disk_handle, youbot_base_handle);
-//        if (current_distance < min_distance)
-//        {
-//            min_distance = current_distance;
-//            for (int i = 0; i<3; i++)
-//            {
-//                min_position[i] =  new_position[i];
-//                min_orientation[i] = new_orientation[i];
-//            }
-//        }
-
-//        //trying third position
-//        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
-
-//        shift = 0.3;
-
-//        new_position[0] = object_position[0];
-//        new_position[1] = object_position[1] - shift;
-//        new_position[2] = dummy_disk_position[2];
-//        simxSetObjectPosition(clientID, dummy_disk_handle, -1, new_position, mode);
-
-
-//        new_orientation[0] = 0;
-//        new_orientation[1] = 0;
-//        new_orientation[2] = 0 - 3.14142;
-//        simxSetObjectOrientation(clientID, dummy_disk_handle, object_handle, new_orientation, mode);
-
-//        current_distance = getDistance(dummy_disk_handle, youbot_base_handle);
-//        if (current_distance < min_distance)
-//        {
-//            min_distance = current_distance;
-//            for (int i = 0; i<3; i++)
-//            {
-//                min_position[i] =  new_position[i];
-//                min_orientation[i] = new_orientation[i];
-//            }
-//        }
-
-//        //trying fourth position
-
-//        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
-//        shift = 0.3;
-
-//        new_position[0] = object_position[0];
-//        new_position[1] = object_position[1] + shift;
-//        new_position[2] = dummy_disk_position[2];
-//        simxSetObjectPosition(clientID, dummy_disk_handle, -1, new_position, mode);
-
-
-//        new_orientation[0] = 0;
-//        new_orientation[1] = 0;
-//        new_orientation[2] = 0;
-//        simxSetObjectOrientation(clientID, dummy_disk_handle, object_handle, new_orientation, mode);
-
-//        current_distance = getDistance(dummy_disk_handle, youbot_base_handle);
-//        if (current_distance < min_distance)
-//        {
-//            min_distance = current_distance;
-//            for (int i = 0; i<3; i++)
-//            {
-//                min_position[i] =  new_position[i];
-//                min_orientation[i] = new_orientation[i];
-//            }
-//        }
-
-//        simxSetObjectPosition(clientID, dummy_disk_handle, -1, min_position, mode);
-//        simxSetObjectOrientation(clientID, dummy_disk_handle, -1, new_orientation, mode);
-//    }
-
 
 
 
@@ -451,8 +333,10 @@ void startSimulation()
     }
 
 
-
-
+    bool isObjectAt(std::string object_name, std::string at_name)
+    {
+        return get2DDistance(getHandle(object_name), getHandle(at_name)) < 0.01;
+    }
 
     simxInt getHandle(std::string name)
     {
