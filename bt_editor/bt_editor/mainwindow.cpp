@@ -191,9 +191,13 @@ void MainWindow::on_actionLoad_triggered()
 
 void MainWindow::recursivelyCreateXml(QDomDocument& doc, QDomElement& parent_element, const QtNodes::Node* node)
 {
-    const QtNodes::NodeDataModel* node_model = node->nodeDataModel();
-    const QString model_name = node_model->name();
+    QtNodes::NodeDataModel* node_model = node->nodeDataModel();
+    QString model_name = node_model->name();
+    QString line_text = node_model->get_line_edit();
+
     QDomElement element = doc.createElement( model_name );
+
+    element.setAttribute("text", line_text);
 
     parent_element.appendChild( element );
 

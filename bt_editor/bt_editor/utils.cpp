@@ -583,7 +583,14 @@ BT::TreeNode *getBTObject(QtNodes::FlowScene &scene, QtNodes::Node &node)
     case BT::ISOBJECTONOBJECT:
     {
 
-        BT::IsObjectAt* bt_node = new BT::IsObjectAt(node.nodeDataModel()->get_line_edit().toStdString(), node.nodeDataModel()->get_line_edit().toStdString());
+        std::string s = node.nodeDataModel()->get_line_edit().toStdString();
+
+        std::size_t found = s.find_last_of(",");
+        std::string object_name = s.substr(0,found);
+        std::string at_name =  s.substr(found+1);
+
+        std::cout << "object" << object_name << "at " << at_name << std::endl;
+        BT::IsObjectAt* bt_node = new BT::IsObjectAt(object_name, at_name);
         node.linkBTNode(bt_node);
         return bt_node;
     }

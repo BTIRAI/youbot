@@ -310,3 +310,12 @@ void BehaviorTreeNodeModel::onTextBoxUpdated()
 }
 
 
+void BehaviorTreeNodeModel::set_line_edit(QString text)
+{
+    std::cout << "SETTING TEXT" << std::endl;
+
+    if (_line_edit != NULL)
+    {
+    _line_edit->setText("ciao");
+    }
+}

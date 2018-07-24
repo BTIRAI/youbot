@@ -169,7 +169,6 @@ public:
         BehaviorTreeNodeModel("IsObjectAtObject", NodeFactory::get().getActionParameterModel() )
     {
 
-
     }
     int BTType()
     {
@@ -181,7 +180,7 @@ public:
     { return (portType==PortType::In) ? 1:0; }
 
     virtual std::unique_ptr<NodeDataModel> clone() const override
-    { return  std::unique_ptr<NodeDataModel>( new IsObjectGraspedModel ); }
+    { return  std::unique_ptr<NodeDataModel>( new IsObjectAtObjectModel ); }
 
     virtual QString name() const override { return QString("IsObjectAtObject"); }
 };

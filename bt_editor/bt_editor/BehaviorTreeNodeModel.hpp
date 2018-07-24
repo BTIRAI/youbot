@@ -61,6 +61,7 @@ public:
   virtual void lock(bool locked);
 
   QString get_line_edit();
+  void set_line_edit(QString text);
   QString get_text_edit();
   void lastComboItem() const;
 private:

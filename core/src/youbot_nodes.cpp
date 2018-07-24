@@ -136,16 +136,16 @@ BT::ReturnStatus BT::IsObjectAt::Tick()
 {
     std::cout << "Checking IsObjectAt" << std::endl;
 
-//    if (vrep_utilities::isObjectAt(object_name_, at_name_))
-//    {
+    if (vrep_utilities::isObjectAt(object_name_, at_name_))
+    {
 
-//        return BT::SUCCESS;
-//    }
-//    else
-//    {
-//        return BT::FAILURE;
+        return BT::SUCCESS;
+    }
+    else
+    {
+        return BT::FAILURE;
 
-//    }
+    }
 }
 
 

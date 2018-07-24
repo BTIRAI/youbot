@@ -2,7 +2,7 @@
 #include "utils.h"
 #include <node_editor/NodeStyle>
 #include <functional>
-
+#include <BehaviorTreeNodeModel.hpp>
 
 
 
@@ -37,6 +37,7 @@ void ParseBehaviorTreeXML(const QDomElement &xml_root, QtNodes::FlowScene* scene
       node_json[item.nodeName()] = item.nodeValue();
     }
 
+
     std::unique_ptr<NodeDataModel> dataModel = scene->registry().create(xml_node.nodeName());
 
     if (!dataModel){
@@ -45,10 +46,14 @@ void ParseBehaviorTreeXML(const QDomElement &xml_root, QtNodes::FlowScene* scene
     }
     dataModel->restore(node_json);
 
+
     Node& new_node = scene->createNode( std::move(dataModel) );
 
+    ((BehaviorTreeNodeModel&) new_node).set_line_edit("hello");
     cursor.setX( cursor.x() + 65);
     cursor.setY( nested_nodes * 400 );
+
+
 
     scene->setNodePosition(new_node, cursor);
    //  if( xml_root.nodeName() != "LooseNodes")
