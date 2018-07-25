@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(youbotVrepTests)
+project(youbotBTExample)
 SET(CMAKE_CXX_FLAGS -pthread)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -8,6 +8,7 @@ add_definitions(-DNON_MATLAB_PARSING)
 add_definitions(-DMAX_EXT_API_CONNECTIONS=255)
 
 set(VREP_API_DIR ${PROJECT_SOURCE_DIR}/vrep_api/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(core)
 
