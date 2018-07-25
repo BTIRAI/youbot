@@ -49,7 +49,6 @@ void ParseBehaviorTreeXML(const QDomElement &xml_root, QtNodes::FlowScene* scene
 
     Node& new_node = scene->createNode( std::move(dataModel) );
 
-    ((BehaviorTreeNodeModel&) new_node).set_line_edit("hello");
     cursor.setX( cursor.x() + 65);
     cursor.setY( nested_nodes * 400 );
 

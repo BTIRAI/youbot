@@ -748,6 +748,7 @@ void runTree(QtNodes::FlowScene* scene)
             node->nodeGraphicsObject().update();
         }
     }
+    vrep_utilities::stopSimulation();
     std::cout << "Halting the BT" << std::endl;
       bt_root->Halt();
 

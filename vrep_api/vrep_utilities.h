@@ -13,6 +13,8 @@ namespace vrep_utilities
 {
     void init();
     void startSimulation();
+    void stopSimulation()
+;
     void closeGrippers();
     void openGrippers();
     simxInt getHandle(std::string name);

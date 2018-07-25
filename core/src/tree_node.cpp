@@ -48,7 +48,7 @@ BT::ReturnStatus BT::TreeNode::get_status()
 
 
     std::lock_guard<std::mutex> LockGuard(state_mutex_);
-    std::cout << get_name() << " status is " << status_ <<std::endl;
+    //std::cout << get_name() << " status is " << status_ <<std::endl;
 
     return status_;
 }

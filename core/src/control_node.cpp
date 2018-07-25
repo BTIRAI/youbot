@@ -97,11 +97,12 @@ void BT::ControlNode::HaltChildren(int i)
             if(children_nodes_[j]->get_type() == BT::ACTION_NODE){
                 // if it is an action, i need to halt using the halt_request 
                 children_nodes_[j]->halt_requested(true);
+                children_nodes_[j]->Halt();
                 //wait for the child j to be halted
                 do
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                    //std::cout <<" Waiting fo halt of " << children_nodes_[j]-> get_name() <<  "status " << children_nodes_[j]->get_status()  <<  std::endl;
+                    std::cout <<" Waiting fo halt of " << children_nodes_[j]-> get_name() <<  "status " << children_nodes_[j]->get_status()  <<  std::endl;
                 }
                 while (children_nodes_[j]->get_status() != BT::HALTED  && children_nodes_[j]->get_status() != BT::IDLE );
             }

@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <complex>
+#include <mutex>
 
 extern "C" {
     #include "extApi.h"
@@ -13,8 +14,8 @@ extern "C" {
 simxInt clientID, disc1_handle, youbot_base_handle, youbot_base_target_handle, youbot_grippers_target_handle, mode = simx_opmode_oneshot_wait;
 simxUChar* data;
 simxInt dataSize;
-
-
+std::mutex is_arm_busy_mutex;
+bool is_arm_busy;
 
 namespace vrep_utilities
 {
@@ -23,6 +24,12 @@ void startSimulation()
 {
 
     simxStartSimulation(clientID, 0);
+
+}
+void stopSimulation()
+{
+
+    simxStopSimulation(clientID, 0);
 
 }
     void init()
@@ -104,18 +111,24 @@ void startSimulation()
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         initArm();
 
+
+
     }
 
     void graspObject(std::string name)
     {
+        {
+            std::lock_guard<std::mutex> lock(is_arm_busy_mutex);
+            is_arm_busy = true;
 
-            openGrippers();
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        }
+        openGrippers();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-            simxInt object_handle = getHandle(name);
+        simxInt object_handle = getHandle(name);
 
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
             simxFloat destination_position[3], destination_orientation[3];
             simxGetObjectPosition(clientID, object_handle, -1, destination_position, mode);
@@ -131,6 +144,11 @@ void startSimulation()
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
             initArm();
+            {
+                std::lock_guard<std::mutex> lock(is_arm_busy_mutex);
+                is_arm_busy = false;
+
+            }
     }
 
     void approachObject(std::string name)
@@ -317,8 +335,14 @@ void startSimulation()
         simxGetObjectHandle(clientID, object_name.c_str(), &handle, mode);
 
         simxFloat distance = getDistance(handle, youbot_grippers_target_handle);
+        bool busy;
 
-        return distance < 0.01;
+        {
+            std::lock_guard<std::mutex> lock(is_arm_busy_mutex);
+            busy = is_arm_busy;
+
+        }
+        return distance < 0.01 && !busy;
     }
 
 
@@ -327,14 +351,19 @@ void startSimulation()
         simxInt handle;
         simxGetObjectHandle(clientID, object_name.c_str(), &handle, mode);
 
-        simxFloat distance = getDistance(handle, youbot_base_target_handle);
+        simxFloat distance = get2DDistance(handle, youbot_base_handle);
 
-        return distance < 0.01;
+        std::cout << "[vrep utilities]*****************ROBOT CLOSE TO" << object_name << "distance " << distance << std::endl;
+
+        return distance < 0.32;
     }
 
 
     bool isObjectAt(std::string object_name, std::string at_name)
     {
+
+        std::cout << "2d distance: "<< object_name << " " << at_name << " : " << get2DDistance(getHandle(object_name), getHandle(at_name)) << std::endl;
+
         return get2DDistance(getHandle(object_name), getHandle(at_name)) < 0.01;
     }
 

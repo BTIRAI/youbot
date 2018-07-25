@@ -171,6 +171,15 @@ void BehaviorTreeNodeModel::restore(std::map<QString,QString> attributes)
         else{
             //_ID = v_type->second;
         }
+
+        auto v_text = attributes.find("text");
+        if (  v_text != attributes.end() )
+        {
+            _line_edit->setText(v_text->second);
+        }
+        else{
+            //_ID = v_type->second;
+        }
     }
 
     for (auto it: attributes)
