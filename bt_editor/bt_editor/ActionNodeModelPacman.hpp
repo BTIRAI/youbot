@@ -31,7 +31,7 @@ class MoveCloseToObjectNodeModel : public BehaviorTreeNodeModel
 {
 public:
     MoveCloseToObjectNodeModel():
-        BehaviorTreeNodeModel("MoveCloseToObject", NodeFactory::get().getActionParameterModel() )
+        BehaviorTreeNodeModel("MoveCloseTo", NodeFactory::get().getActionParameterModel() )
     { }
     int BTType()
     {
@@ -45,7 +45,7 @@ public:
     virtual std::unique_ptr<NodeDataModel> clone() const override
     { return  std::unique_ptr<NodeDataModel>( new MoveCloseToObjectNodeModel ); }
 
-    virtual QString name() const override { return QString("MoveCloseToObject"); }
+    virtual QString name() const override { return QString("MoveCloseTo"); }
 };
 
 
