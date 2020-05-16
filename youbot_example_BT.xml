@@ -8,14 +8,14 @@
                     <Sequence text="IFTHENELSE">
                         <Fallback text="IFTHENELSE">
                             <IsRobotCloseTo text="blueCube"/>
-                            <MoveCloseToObject text="blueCube"/>
+                            <MoveCloseTo text="blueCube"/>
                         </Fallback>
                         <GraspObject text="blueCube"/>
                     </Sequence>
                 </Fallback>
                 <Fallback text="IFTHENELSE">
                     <IsRobotCloseTo text="goalLocation"/>
-                    <MoveCloseToObject text="goalLocation"/>
+                    <MoveCloseTo text="goalLocation"/>
                 </Fallback>
                 <PutObjectInFront text="blueCube"/>
             </Sequence>
